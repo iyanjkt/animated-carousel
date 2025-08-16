@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+    --color-lime: #8F9E0D;
+    --color-caramel: #BA4F23;
+    --color-coffee: #612A13;
+    --color-button: #00000040;
+    --font-inter: 'Inter', sans-serif
+}
+
+* {
+    @apply font-inter
+}
+
+.btn {
+    @apply bg-button rounded-full cursor-pointer duration-150 ease-in text-center flex items-center text-white
+}
+
+
+.btn:hover,
+.active {
+    @apply bg-white text-black rounded-full
+} 
+
+#image-product {
+    @apply rotate-10
+}
