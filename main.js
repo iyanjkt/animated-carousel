@@ -46,7 +46,7 @@ rightArrow.addEventListener('click', () => {
     gsap.timeline({
         onComplete: () => {
             updateCarousel(currentIndex);
-            gsap.from(imgProduct, { x: -100, opacity: 0 })
+            gsap.from(imgProduct, { x: -100, opacity: 0, duration: 0.8 })
             gsap.from(titleProduct, { y: -50, opacity: 0 })
         }
     })
@@ -57,7 +57,7 @@ leftArrow.addEventListener('click', () => {
     gsap.timeline({
         onComplete: () => {
             updateCarousel(currentIndex);
-            gsap.from(imgProduct, { x: 100, opacity: 0 })
+            gsap.from(imgProduct, { x: 100, opacity: 0, duration: 0.8 })
             gsap.from(titleProduct, { y: -50, opacity: 0 })
         }
     })
@@ -91,8 +91,10 @@ window.addEventListener('click', (e) => {
 
 
 const imgPreload = document.getElementById('image-preload')
+const content = document.getElementById('content')
 
-gsap.set(imgProduct, { y: -50, opacity: 0 });
+gsap.set([imgProduct], { y: -50, opacity: 0 });
+gsap.set([content], { y: 50, opacity: 0 });
 gsap.set(imgPreload, { y: 270, opacity: 0.5 })
 
 imgProduct.onload = () => {
@@ -100,14 +102,14 @@ imgProduct.onload = () => {
 
     preLoadTimeline.to(imgPreload, {
         opacity: 0.5,
-        duration: 1.2,
+        duration: 1,
     })
         .to(imgPreload, {
             opacity: 0,
             duration: 0.3,
             onComplete: () => {
                 imgPreload.style.display = "none";
-                gsap.to(imgProduct, {
+                gsap.to([imgProduct, content], {
                     y: 0,
                     opacity: 1,
                     duration: 1
