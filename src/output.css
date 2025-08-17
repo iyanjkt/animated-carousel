@@ -8,7 +8,6 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-amber-200: oklch(92.4% 0.12 95.746);
     --color-gray-400: oklch(70.7% 0.022 261.325);
     --color-black: #000;
     --color-white: #fff;
@@ -223,44 +222,20 @@
   .hidden {
     display: none;
   }
-  .table {
-    display: table;
-  }
   .h-dvh {
     height: 100dvh;
   }
   .h-full {
     height: 100%;
   }
-  .w-\[32px\] {
-    width: 32px;
-  }
-  .w-\[36px\] {
-    width: 36px;
-  }
-  .w-\[46px\] {
-    width: 46px;
-  }
   .w-\[50px\] {
     width: 50px;
-  }
-  .w-\[64px\] {
-    width: 64px;
   }
   .w-\[70px\] {
     width: 70px;
   }
-  .w-\[78px\] {
-    width: 78px;
-  }
   .w-\[80\%\] {
     width: 80%;
-  }
-  .w-\[100px\] {
-    width: 100px;
-  }
-  .w-\[128px\] {
-    width: 128px;
   }
   .w-\[290px\] {
     width: 290px;
@@ -268,15 +243,8 @@
   .w-full {
     width: 100%;
   }
-  .border-collapse {
-    border-collapse: collapse;
-  }
   .origin-top {
     transform-origin: top;
-  }
-  .-translate-x-1 {
-    --tw-translate-x: calc(var(--spacing) * -1);
-    translate: var(--tw-translate-x) var(--tw-translate-y);
   }
   .-translate-x-1\/2 {
     --tw-translate-x: calc(calc(1/2 * 100%) * -1);
@@ -291,9 +259,6 @@
   }
   .cursor-pointer {
     cursor: pointer;
-  }
-  .resize {
-    resize: both;
   }
   .flex-col {
     flex-direction: column;
@@ -351,9 +316,6 @@
   }
   .border-b-gray-400 {
     border-bottom-color: var(--color-gray-400);
-  }
-  .bg-amber-200 {
-    background-color: var(--color-amber-200);
   }
   .bg-button {
     background-color: var(--color-button);
@@ -423,21 +385,8 @@
   .text-white {
     color: var(--color-white);
   }
-  .underline {
-    text-decoration-line: underline;
-  }
-  .opacity-25 {
-    opacity: 25%;
-  }
-  .opacity-50 {
-    opacity: 50%;
-  }
   .opacity-80 {
     opacity: 80%;
-  }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
   }
   .duration-150 {
     --tw-duration: 150ms;
@@ -653,11 +602,6 @@
   syntax: "*";
   inherits: false;
 }
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
 @property --tw-duration {
   syntax: "*";
   inherits: false;
@@ -696,7 +640,6 @@
       --tw-border-style: solid;
       --tw-leading: initial;
       --tw-font-weight: initial;
-      --tw-outline-style: solid;
       --tw-duration: initial;
       --tw-ease: initial;
       --tw-scale-x: 1;

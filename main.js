@@ -29,8 +29,29 @@ const rightArrow = document.getElementById('right-arrow')
 
 let currentIndex = 0
 let previousBgClass = 'bg-lime'
+let carouselAnimation
 
-function updateCarousel(index) {
+const imageUrls = dataProduct.map(item => item.img)
+
+function preloadAllImages() {
+    return new Promise((resolve) => {
+        const promises = imageUrls.map(url => {
+            return new Promise((imgResolve, imgReject) => {
+                const img = new Image()
+                img.src = url
+                img.onload = imgResolve
+                img.onerror = imgReject
+            })
+        })
+        Promise.all(promises).then(resolve).catch(resolve)
+    })
+}
+
+const preloadAll = preloadAllImages()
+preloadAll.then(response => console.log(response))
+
+
+function updateCarousel(index, direction) {
     const data = dataProduct[index]
 
     imgProduct.src = data.img;
@@ -39,33 +60,60 @@ function updateCarousel(index) {
     bgColor.classList.remove(previousBgClass)
     bgColor.classList.add(data.bg)
     previousBgClass = data.bg
+
+    if (carouselAnimation && carouselAnimation.isActive()) {
+        return; // Hentikan fungsi jika animasi sedang berjalan
+    }
+
+    carouselAnimation = gsap.timeline()
+
+    carouselAnimation
+        .from(imgProduct, { x: direction === 'right' ? -100 : 100, opacity: 0, duration: 0.8 })
+    gsap.from(titleProduct, { y: -50, opacity: 0 })
 }
+
 
 rightArrow.addEventListener('click', () => {
     currentIndex = (currentIndex + 1) % dataProduct.length;
-    gsap.timeline({
-        onComplete: () => {
-            updateCarousel(currentIndex);
-            gsap.from(imgProduct, { x: -100, opacity: 0, duration: 0.8 })
-            gsap.from(titleProduct, { y: -50, opacity: 0 })
-        }
-    })
+    updateCarousel(currentIndex, 'right');
 })
 
 leftArrow.addEventListener('click', () => {
     currentIndex = (currentIndex - 1 + dataProduct.length) % dataProduct.length;
-    gsap.timeline({
-        onComplete: () => {
-            updateCarousel(currentIndex);
-            gsap.from(imgProduct, { x: 100, opacity: 0, duration: 0.8 })
-            gsap.from(titleProduct, { y: -50, opacity: 0 })
-        }
-    })
+    updateCarousel(currentIndex, 'left');
 })
 
-updateCarousel(currentIndex)
+const imgPreload = document.getElementById('image-preload')
+const content = document.getElementById('content')
+
+gsap.set(imgProduct, { y: -50, opacity: 0 });
+gsap.set(content, { y: 50, opacity: 0 });
+gsap.set(imgPreload, { y: 270, opacity: 0.5 })
+
+preloadAllImages().then(() => {
+    const preLoadTimeline = gsap.timeline();
+    updateCarousel(currentIndex)
+
+    preLoadTimeline.to(imgPreload, {
+        opacity: 0.2,
+        duration: 1,
+    })
+        .to(imgPreload, {
+            opacity: 0,
+            duration: 0.1,
+            onComplete: () => {
+                imgPreload.style.display = "none";
+                gsap.to([imgProduct, content], {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1
+                })
+            }
+        })
+})
 
 
+/* ꘏꘏꘏꘏꘏꘏꘏꘏꘏ HAMBURGER MENU ꘏꘏꘏꘏꘏꘏꘏꘏꘏ */
 const hamburger = document.getElementById('hamburger')
 const dropdownMenu = document.getElementById('dropdown-menu')
 
@@ -79,7 +127,6 @@ hamburger.addEventListener('click', () => {
         dropdownMenu.classList.replace('max-sm:scale-y-100', 'max-sm:scale-y-0');
         document.querySelector('#hamburger i').classList.replace('bx-menu-wider', 'bx-menu')
     }
-
 })
 
 window.addEventListener('click', (e) => {
@@ -88,32 +135,3 @@ window.addEventListener('click', (e) => {
         document.querySelector('#hamburger i').classList.replace('bx-menu-wider', 'bx-menu')
     }
 })
-
-
-const imgPreload = document.getElementById('image-preload')
-const content = document.getElementById('content')
-
-gsap.set([imgProduct], { y: -50, opacity: 0 });
-gsap.set([content], { y: 50, opacity: 0 });
-gsap.set(imgPreload, { y: 270, opacity: 0.5 })
-
-imgProduct.onload = () => {
-    const preLoadTimeline = gsap.timeline();
-
-    preLoadTimeline.to(imgPreload, {
-        opacity: 0.5,
-        duration: 1,
-    })
-        .to(imgPreload, {
-            opacity: 0,
-            duration: 0.3,
-            onComplete: () => {
-                imgPreload.style.display = "none";
-                gsap.to([imgProduct, content], {
-                    y: 0,
-                    opacity: 1,
-                    duration: 1
-                })
-            }
-        })
-}
